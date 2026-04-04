@@ -8,7 +8,6 @@ import {
   Error,
 } from "../components";
 import styles from "./Home.module.css";
-import { genres } from "../data";
 import { PodcastContext } from "../context/PodcastContext";
 import { useContext } from "react";
 
@@ -26,7 +25,7 @@ import { useContext } from "react";
  * @returns {JSX.Element} The home page content with filters, results, and feedback states.
  */
 export default function Home() {
-  const { podcasts, loading, error } = useContext(PodcastContext);
+  const { loading, error, genres } = useContext(PodcastContext);
 
   return (
     <main className={styles.main}>
