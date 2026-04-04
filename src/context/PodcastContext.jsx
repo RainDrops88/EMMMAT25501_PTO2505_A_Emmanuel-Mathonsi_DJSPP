@@ -1,5 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
-import { fetchPodcasts } from "../api/fetchData";
+import { createContext, useEffect, useState } from "react";
+import { fetchGenresByIds, fetchPodcasts } from "../api/fetchData";
 
 /**
  * React context for managing podcast-related state and filters.
@@ -46,6 +46,7 @@ export function PodcastProvider({ children }) {
   const [allPodcasts, setAllPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [genres, setGenres] = useState([]);
 
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("date-desc");
@@ -59,6 +60,24 @@ export function PodcastProvider({ children }) {
   useEffect(() => {
     fetchPodcasts(setAllPodcasts, setError, setLoading);
   }, []);
+
+  /**
+   * Fetch genre details for the IDs present in the loaded podcast data.
+   */
+  useEffect(() => {
+    const loadGenres = async () => {
+      if (!allPodcasts.length) {
+        setGenres([]);
+        return;
+      }
+
+      const genreIds = allPodcasts.flatMap((podcast) => podcast.genres || []);
+      const fetchedGenres = await fetchGenresByIds(genreIds);
+      setGenres(fetchedGenres);
+    };
+
+    loadGenres();
+  }, [allPodcasts]);
 
   /**
    * Reset to the first page when filters change.
@@ -142,6 +161,7 @@ export function PodcastProvider({ children }) {
   const value = {
     loading,
     error,
+    genres,
     search,
     setSearch,
     sortKey,
