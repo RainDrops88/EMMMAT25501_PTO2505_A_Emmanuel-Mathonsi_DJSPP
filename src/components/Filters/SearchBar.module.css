@@ -1,0 +1,21 @@
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .searchInput {
+    width: 50%;
+  }
+}

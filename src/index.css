@@ -1,0 +1,57 @@
+:root {
+  color-scheme: light;
+  --app-bg: #f9fafb;
+  --surface-bg: #ffffff;
+  --surface-muted: #f3f4f6;
+  --surface-hover: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #555;
+  --grey-text: var(--text-secondary);
+  --border-color: #d1d5db;
+  --input-bg: #ffffff;
+  --tag-bg: #e5e7eb;
+  --accent-primary: #2563eb;
+  --header-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --app-bg: #111827;
+  --surface-bg: #1f2937;
+  --surface-muted: #374151;
+  --surface-hover: #4b5563;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --border-color: #4b5563;
+  --input-bg: #111827;
+  --tag-bg: #374151;
+  --header-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--app-bg);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
