@@ -189,7 +189,12 @@ export function PodcastProvider({ children }) {
         );
       }
 
-      return [episodeToSave, ...currentEpisodes];
+      const favoriteWithDate = {
+        ...episodeToSave,
+        addedAt: episodeToSave.addedAt ?? new Date().toISOString(),
+      };
+
+      return [favoriteWithDate, ...currentEpisodes];
     });
   };
 

@@ -22,21 +22,20 @@ export default function FavoritePage() {
     toggleEpisodeFavorite,
   } = useContext(PodcastContext);
 
-  const sortedFavorites = [...favoriteEpisodes]
-    .sort((a, b) => {
-      switch (sortKey) {
-        case "title-asc":
-          return a.episodeTitle.localeCompare(b.episodeTitle);
-        case "title-desc":
-          return b.episodeTitle.localeCompare(a.episodeTitle);
-        case "date-asc":
-          return new Date(a.updated) - new Date(b.updated);
-        case "date-desc":
-          return new Date(b.updated) - new Date(a.updated);
-        default:
-          return 0;
-      }
-    });
+  const sortedFavorites = [...favoriteEpisodes].sort((a, b) => {
+    switch (sortKey) {
+      case "title-asc":
+        return a.episodeTitle.localeCompare(b.episodeTitle);
+      case "title-desc":
+        return b.episodeTitle.localeCompare(a.episodeTitle);
+      case "date-asc":
+        return new Date(a.addedAt ?? a.updated) - new Date(b.addedAt ?? b.updated);
+      case "date-desc":
+        return new Date(b.addedAt ?? b.updated) - new Date(a.addedAt ?? a.updated);
+      default:
+        return 0;
+    }
+  });
 
   return (
     <main className={styles.main}>
@@ -50,10 +49,12 @@ export default function FavoritePage() {
       )}
 
       {!loading && !error && (
+        <section className={styles.favoriteEpisodes}>
         <FavoriteCard
           episodes={sortedFavorites}
           toggleEpisodeFavorite={toggleEpisodeFavorite}
         />
+      </section>
       )}
     </main>
   );
