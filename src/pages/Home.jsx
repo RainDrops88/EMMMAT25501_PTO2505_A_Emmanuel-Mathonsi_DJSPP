@@ -26,7 +26,8 @@ import { useContext } from "react";
  * @returns {JSX.Element} The home page content with filters, results, and feedback states.
  */
 export default function Home() {
-  const { loading, error, genres } = useContext(PodcastContext);
+  const { loading, error, genres, search } = useContext(PodcastContext);
+  const showCarousel = !search.trim();
 
   return (
     <main className={styles.main}>
@@ -43,7 +44,7 @@ export default function Home() {
 
       {!loading && !error && (
         <>
-          <Carousel />
+          {showCarousel && <Carousel />}
           <PodcastGrid />
           <Pagination />
         </>
