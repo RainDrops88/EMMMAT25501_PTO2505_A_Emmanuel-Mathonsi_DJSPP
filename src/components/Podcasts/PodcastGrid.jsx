@@ -18,22 +18,22 @@ import { useContext } from "react";
  *
  * @returns {JSX.Element} A grid of <PodcastCard> components or a message if no results are found
  */
-export default function PodcastGrid() {
+export default function PodcastGrid({
+  items,
+  emptyMessage = "No podcasts match your search or filters.",
+}) {
   const { podcasts } = useContext(PodcastContext);
-  if (!podcasts.length) {
-    return (
-      <p className={styles.noResults}>
-        No podcasts match your search or filters.
-      </p>
-    );
+  const displayPodcasts = items ?? podcasts;
+
+  if (!displayPodcasts.length) {
+    return <p className={styles.noResults}>{emptyMessage}</p>;
   }
+
   return (
-    <>
-      <div className={styles.grid}>
-        {podcasts.map((podcast) => (
-          <PodcastCard key={podcast.id} podcast={podcast} />
-        ))}
-      </div>
-    </>
+    <div className={styles.grid}>
+      {displayPodcasts.map((podcast) => (
+        <PodcastCard key={podcast.id} podcast={podcast} />
+      ))}
+    </div>
   );
 }
