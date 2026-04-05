@@ -32,6 +32,8 @@ export const SORT_OPTIONS = [
   { key: "title-desc", label: "Title Z → A" },
 ];
 
+const FAVORITE_EPISODES_STORAGE_KEY = "favoriteEpisodes";
+
 /**
  * PodcastProvider component.
  *
@@ -53,6 +55,20 @@ export function PodcastProvider({ children }) {
   const [genre, setGenre] = useState("all");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [favoriteEpisodes, setFavoriteEpisodes] = useState(() => {
+    if (typeof window === "undefined") {
+      return [];
+    }
+
+    try {
+      const savedEpisodes = JSON.parse(
+        window.localStorage.getItem(FAVORITE_EPISODES_STORAGE_KEY) ?? "[]"
+      );
+      return Array.isArray(savedEpisodes) ? savedEpisodes : [];
+    } catch {
+      return [];
+    }
+  });
 
   /**
    * Fetch podcast data from the API when the provider mounts.
@@ -85,6 +101,15 @@ export function PodcastProvider({ children }) {
   useEffect(() => {
     setPage(1);
   }, [search, sortKey, genre]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        FAVORITE_EPISODES_STORAGE_KEY,
+        JSON.stringify(favoriteEpisodes)
+      );
+    }
+  }, [favoriteEpisodes]);
 
   /**
    * Dynamically calculate the number of items per page based on screen width.
@@ -147,6 +172,27 @@ export function PodcastProvider({ children }) {
     return data;
   };
 
+  const isEpisodeFavorite = (podcastId, seasonIndex, episodeIndex) => {
+    const episodeKey = `${podcastId}-${seasonIndex}-${episodeIndex}`;
+    return favoriteEpisodes.some((episode) => episode.key === episodeKey);
+  };
+
+  const toggleEpisodeFavorite = (episodeToSave) => {
+    setFavoriteEpisodes((currentEpisodes) => {
+      const exists = currentEpisodes.some(
+        (episode) => episode.key === episodeToSave.key
+      );
+
+      if (exists) {
+        return currentEpisodes.filter(
+          (episode) => episode.key !== episodeToSave.key
+        );
+      }
+
+      return [episodeToSave, ...currentEpisodes];
+    });
+  };
+
   const filtered = applyFilters();
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, totalPages);
@@ -174,6 +220,10 @@ export function PodcastProvider({ children }) {
     podcasts: paged,
     allPodcastsCount: filtered.length,
     allPodcasts, // useful for detail pages
+    favoriteEpisodes,
+    favoriteEpisodesCount: favoriteEpisodes.length,
+    isEpisodeFavorite,
+    toggleEpisodeFavorite,
   };
 
   return (
