@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ← add this
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PodcastContext } from "../../context/PodcastContext";
 import styles from "./PodcastDetail.module.css";
 import { formatDate } from "../../utils/formatDate";
 import GenreTags from "../UI/GenreTags";
@@ -7,7 +8,26 @@ import GenreTags from "../UI/GenreTags";
 export default function PodcastDetail({ podcast, genres }) {
   const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(0);
   const season = podcast.seasons[selectedSeasonIndex];
-  const navigate = useNavigate(); // ← hook for navigation
+  const navigate = useNavigate();
+  const { toggleEpisodeFavorite, isEpisodeFavorite } =
+    useContext(PodcastContext);
+
+  const buildEpisodeFavorite = (episode, episodeIndex) => ({
+    key: `${podcast.id}-${selectedSeasonIndex}-${episodeIndex}`,
+    podcastId: podcast.id,
+    podcastTitle: podcast.title,
+    podcastImage: podcast.image,
+    seasonNumber: selectedSeasonIndex + 1,
+    seasonTitle: season.title,
+    seasonImage: season.image,
+    episodeNumber: episodeIndex + 1,
+    episodeTitle: episode.title,
+    description: episode.description,
+    file: episode.file,
+    updated: podcast.updated,
+    genres,
+  });
+
 
   return (
     <div className={styles.container}>
@@ -84,17 +104,45 @@ export default function PodcastDetail({ podcast, genres }) {
         </div>
 
         <div className={styles.episodeList}>
-          {season.episodes.map((ep, index) => (
-            <div key={index} className={styles.episodeCard}>
-              <img className={styles.episodeCover} src={season.image} alt="" />
-              <div className={styles.episodeInfo}>
-                <p className={styles.episodeTitle}>
-                  Episode {index + 1}: {ep.title}
-                </p>
-                <p className={styles.episodeDesc}>{ep.description}</p>
+          {season.episodes.map((ep, index) => {
+            const episodeIsFavorite = isEpisodeFavorite(
+              podcast.id,
+              selectedSeasonIndex,
+              index
+            );
+
+            return (
+              <div key={index} className={styles.episodeCard}>
+                <img className={styles.episodeCover} src={season.image} alt="" />
+                <div className={styles.episodeInfo}>
+                  <p className={styles.episodeTitle}>
+                    Episode {index + 1}: {ep.title}
+                  </p>
+                  <p className={styles.episodeDesc}>{ep.description}</p>
+                  <audio controls className={styles.audioPlayer}>
+                    <source src={ep.file} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+                <button
+                  type="button"
+                  className={`${styles.favoriteIcon} ${
+                    episodeIsFavorite ? styles.favoriteActive : ""
+                  }`}
+                  onClick={() =>
+                    toggleEpisodeFavorite(buildEpisodeFavorite(ep, index))
+                  }
+                  aria-label={
+                    episodeIsFavorite
+                      ? `Remove ${ep.title} from favorites`
+                      : `Add ${ep.title} to favorites`
+                  }
+                >
+                  {episodeIsFavorite ? "★" : "☆"}
+                </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
