@@ -20,3 +20,17 @@
     gap: 1.5rem;
   }
 }
+
+
+.favoriteEpisodes {
+  background: var(--surface-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  gap: 1rem;
+  margin: 0 auto;
+}
