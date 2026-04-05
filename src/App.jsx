@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/UI/Header";
 import Home from "./pages/Home";
+import FavoritePage from "./pages/Favorite";
 import ShowDetail from "./pages/ShowDetail";
 import { PodcastProvider } from "./context/PodcastContext";
 
@@ -45,6 +46,7 @@ export default function App() {
       <Header theme={theme} onToggleTheme={handleToggleTheme} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<FavoritePage />} />
         <Route path="/show/:id" element={<ShowDetail />} />
       </Routes>
     </PodcastProvider>
