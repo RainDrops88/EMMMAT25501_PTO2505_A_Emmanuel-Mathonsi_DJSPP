@@ -146,7 +146,9 @@ strong {
 }
 
 .episodeCard {
-  display: flex;
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: 1rem;
   background: var(--surface-muted);
   padding: 1rem;
   border: 1px solid var(--border-color);
@@ -175,6 +177,33 @@ strong {
 .episodeDesc {
   color: var(--text-secondary);
   font-size: 0.875rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+   line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.audioPlayer {
+  height: 1.5rem;
+  background: none;
+}
+
+.favoriteIcon {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: rgb(155, 151, 151);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.favoriteIcon:hover {
+  transform: scale(1.08);
+}
+
+.favoriteActive {
+  color: #d4a017;
 }
 
 @media (max-width: 600px) {
