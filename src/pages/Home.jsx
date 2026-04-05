@@ -7,6 +7,7 @@ import {
   Loading,
   Error,
 } from "../components";
+import Carousel from "../components/UI/Carousel";
 import styles from "./Home.module.css";
 import { PodcastContext } from "../context/PodcastContext";
 import { useContext } from "react";
@@ -42,6 +43,7 @@ export default function Home() {
 
       {!loading && !error && (
         <>
+          <Carousel />
           <PodcastGrid />
           <Pagination />
         </>
