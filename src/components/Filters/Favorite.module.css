@@ -108,9 +108,20 @@
   font-style: italic;
 }
 
-.favoriteEpisodeAudio {
-  width: 100%;
+.favoriteEpisodePlay {
   margin-top: 0.5rem;
+  border: 1px solid var(--border-color);
+  background: var(--accent-primary);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.playing {
+  background: var(--surface-muted);
+  color: var(--text-primary);
 }
 
 .favoriteEpisodeActions {
