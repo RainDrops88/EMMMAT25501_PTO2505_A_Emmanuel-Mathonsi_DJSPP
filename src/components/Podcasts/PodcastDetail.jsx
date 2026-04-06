@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PodcastContext } from "../../context/PodcastContextStore";
+import { AudioPlayerContext } from "../../context/AudioPlayerContext";
 import styles from "./PodcastDetail.module.css";
 import { formatDate } from "../../utils/formatDate";
 import GenreTags from "../UI/GenreTags";
@@ -11,15 +12,19 @@ export default function PodcastDetail({ podcast, genres }) {
   const navigate = useNavigate();
   const { toggleEpisodeFavorite, isEpisodeFavorite } =
     useContext(PodcastContext);
+  const { episode: activeEpisode, isPlaying, playEpisode } =
+    useContext(AudioPlayerContext);
 
   const buildEpisodeFavorite = (episode, episodeIndex) => ({
     key: `${podcast.id}-${selectedSeasonIndex}-${episodeIndex}`,
     podcastId: podcast.id,
     podcastTitle: podcast.title,
     podcastImage: podcast.image,
+    seasonIndex: selectedSeasonIndex,
     seasonNumber: selectedSeasonIndex + 1,
     seasonTitle: season.title,
     seasonImage: season.image,
+    episodeIndex,
     episodeNumber: episodeIndex + 1,
     episodeTitle: episode.title,
     description: episode.description,
@@ -28,6 +33,9 @@ export default function PodcastDetail({ podcast, genres }) {
     genres,
   });
 
+  const seasonEpisodeQueue = season.episodes.map((seasonEpisode, index) =>
+    buildEpisodeFavorite(seasonEpisode, index)
+  );
 
   return (
     <div className={styles.container}>
@@ -79,7 +87,7 @@ export default function PodcastDetail({ podcast, genres }) {
       <div className={styles.seasonDetails}>
         <div className={styles.seasonIntro}>
           <div className={styles.left}>
-            <img className={styles.seasonCover} src={season.image} />
+            <img className={styles.seasonCover} src={season.image} alt={season.title} />
             <div>
               <h3>
                 Season {selectedSeasonIndex + 1}: {season.title}
@@ -105,33 +113,48 @@ export default function PodcastDetail({ podcast, genres }) {
 
         <div className={styles.episodeList}>
           {season.episodes.map((ep, index) => {
+            const episodeData = seasonEpisodeQueue[index];
             const episodeIsFavorite = isEpisodeFavorite(
               podcast.id,
               selectedSeasonIndex,
               index
             );
+            const isCurrentEpisode = activeEpisode?.key === episodeData.key;
+            const isEpisodePlaying = isCurrentEpisode && isPlaying;
 
             return (
-              <div key={index} className={styles.episodeCard}>
-                <img className={styles.episodeCover} src={season.image} alt="" />
+              <div key={episodeData.key} className={styles.episodeCard}>
+                <img className={styles.episodeCover} src={season.image} alt={season.title} />
                 <div className={styles.episodeInfo}>
                   <p className={styles.episodeTitle}>
                     Episode {index + 1}: {ep.title}
                   </p>
                   <p className={styles.episodeDesc}>{ep.description}</p>
-                  <audio controls className={styles.audioPlayer}>
-                    <source src={ep.file} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                  </audio>
+                  <button
+                    type="button"
+                    className={`${styles.playButton} ${
+                      isEpisodePlaying ? styles.playing : ""
+                    }`}
+                    onClick={() => playEpisode(episodeData, seasonEpisodeQueue)}
+                    aria-label={
+                      isEpisodePlaying
+                        ? `Pause ${ep.title}`
+                        : `Play ${ep.title}`
+                    }
+                  >
+                    {isEpisodePlaying
+                      ? "⏸ Pause"
+                      : isCurrentEpisode
+                        ? "▶ Resume "
+                        : "▶ Play"}
+                  </button>
                 </div>
                 <button
                   type="button"
                   className={`${styles.favoriteIcon} ${
                     episodeIsFavorite ? styles.favoriteActive : ""
                   }`}
-                  onClick={() =>
-                    toggleEpisodeFavorite(buildEpisodeFavorite(ep, index))
-                  }
+                  onClick={() => toggleEpisodeFavorite(episodeData)}
                   aria-label={
                     episodeIsFavorite
                       ? `Remove ${ep.title} from favorites`
