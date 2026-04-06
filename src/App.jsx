@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/UI/Header";
+import GlobalAudio from "./components/UI/GlobalAudio";
 import Home from "./pages/Home";
 import FavoritePage from "./pages/Favorite";
 import ShowDetail from "./pages/ShowDetail";
+import { AudioPlayerProvider } from "./context/AudioPlayerContext";
 import { PodcastProvider } from "./context/PodcastContext";
 
 const getInitialTheme = () => {
@@ -43,12 +45,15 @@ export default function App() {
 
   return (
     <PodcastProvider>
-      <Header theme={theme} onToggleTheme={handleToggleTheme} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/favorites" element={<FavoritePage />} />
-        <Route path="/show/:id" element={<ShowDetail />} />
-      </Routes>
+      <AudioPlayerProvider>
+        <Header theme={theme} onToggleTheme={handleToggleTheme} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/favorites" element={<FavoritePage />} />
+          <Route path="/show/:id" element={<ShowDetail />} />
+        </Routes>
+        <GlobalAudio />
+      </AudioPlayerProvider>
     </PodcastProvider>
   );
 }
