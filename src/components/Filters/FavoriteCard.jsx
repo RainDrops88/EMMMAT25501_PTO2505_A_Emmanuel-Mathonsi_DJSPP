@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { PodcastContext } from "../../context/PodcastContextStore";
+import { AudioPlayerContext } from "../../context/AudioPlayerContext";
 import styles from "./Favorite.module.css";
 
 /**
@@ -9,6 +10,8 @@ import styles from "./Favorite.module.css";
  */
 export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
   const { favoriteEpisodesCount } = useContext(PodcastContext);
+  const { episode: activeEpisode, isPlaying, playEpisode } =
+    useContext(AudioPlayerContext);
 
   const groupedEpisodes = Array.isArray(episodes)
     ? Object.values(
@@ -64,45 +67,64 @@ export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
             </div>
           </div>
 
-          {group.episodes.map((episode) => (
-            <article key={episode.key} className={styles.favoriteEpisodeCard}>
-              <img
-                className={styles.favoriteEpisodeImage}
-                src={episode.seasonImage || episode.podcastImage}
-                alt={episode.episodeTitle}
-              />
+          {group.episodes.map((episode) => {
+            const isCurrentEpisode = activeEpisode?.key === episode.key;
+            const isEpisodePlaying = isCurrentEpisode && isPlaying;
 
-              <div className={styles.favoriteEpisodeInfo}>
-                <h3>{episode.episodeTitle}</h3>
-                <p className={styles.favoriteEpisodeMeta}>
-                  Season {episode.seasonNumber} · Episode {episode.episodeNumber}
-                </p>
-                <p className={styles.favoriteEpisodeDescription}>
-                  {episode.description}
-                </p>
-                <p className={styles.addedDate}>
-                  Added on: {new Date(
-                    episode.addedAt ?? episode.updated
-                  ).toLocaleDateString()}
-                </p>
-                <audio controls className={styles.favoriteEpisodeAudio}>
-                  <source src={episode.file} type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
+            return (
+              <article key={episode.key} className={styles.favoriteEpisodeCard}>
+                <img
+                  className={styles.favoriteEpisodeImage}
+                  src={episode.seasonImage || episode.podcastImage}
+                  alt={episode.episodeTitle}
+                />
 
-              <div className={styles.favoriteEpisodeActions}>
-                <button
-                  type="button"
-                  className={styles.favoriteEpisodeRemove}
-                  onClick={() => toggleEpisodeFavorite(episode)}
-                  aria-label={`Remove ${episode.episodeTitle} from favorites`}
-                >
-                  ★
-                </button>
-              </div>
-            </article>
-          ))}
+                <div className={styles.favoriteEpisodeInfo}>
+                  <h3>{episode.episodeTitle}</h3>
+                  <p className={styles.favoriteEpisodeMeta}>
+                    Season {episode.seasonNumber} · Episode {episode.episodeNumber}
+                  </p>
+                  <p className={styles.favoriteEpisodeDescription}>
+                    {episode.description}
+                  </p>
+                  <p className={styles.addedDate}>
+                    Added on: {new Date(
+                      episode.addedAt ?? episode.updated
+                    ).toLocaleDateString()}
+                  </p>
+                  <button
+                    type="button"
+                    className={`${styles.favoriteEpisodePlay} ${
+                      isEpisodePlaying ? styles.playing : ""
+                    }`}
+                    onClick={() => playEpisode(episode, episodes)}
+                    aria-label={
+                      isEpisodePlaying
+                        ? `Pause ${episode.episodeTitle}`
+                        : `Play ${episode.episodeTitle}`
+                    }
+                  >
+                    {isEpisodePlaying
+                      ? "⏸ Pause"
+                      : isCurrentEpisode
+                        ? "▶ Resume"
+                        : "▶ Play"}
+                  </button>
+                </div>
+
+                <div className={styles.favoriteEpisodeActions}>
+                  <button
+                    type="button"
+                    className={styles.favoriteEpisodeRemove}
+                    onClick={() => toggleEpisodeFavorite(episode)}
+                    aria-label={`Remove ${episode.episodeTitle} from favorites`}
+                  >
+                    ★
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       ))}
     </section>
