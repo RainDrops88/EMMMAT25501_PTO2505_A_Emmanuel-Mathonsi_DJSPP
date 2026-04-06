@@ -1,36 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchGenresByIds, fetchPodcasts } from "../api/fetchData";
-
-/**
- * React context for managing podcast-related state and filters.
- * Provides access to podcast data, pagination, filtering, and sorting.
- *
- * @typedef {Object} Podcast
- * @property {number} id - Unique identifier for the podcast.
- * @property {string} title - Title of the podcast.
- * @property {string} updated - ISO string of the last updated date.
- * @property {number[]} genres - Array of genre IDs.
- */
-
-/**
- * Context object used throughout the app to consume podcast data and control logic.
- * @type {React.Context<Object>}
- */
-export const PodcastContext = createContext();
-
-/**
- * List of available sorting options used in the UI.
- * Each option includes a `key` used for internal logic and a `label` for display.
- *
- * @type {{key: string, label: string}[]}
- */
-export const SORT_OPTIONS = [
-  { key: "default", label: "Default" },
-  { key: "date-desc", label: "Newest" },
-  { key: "date-asc", label: "Oldest" },
-  { key: "title-asc", label: "Title A → Z" },
-  { key: "title-desc", label: "Title Z → A" },
-];
+import { PodcastContext } from "./PodcastContextStore";
 
 const FAVORITE_EPISODES_STORAGE_KEY = "favoriteEpisodes";
 
@@ -95,13 +65,6 @@ export function PodcastProvider({ children }) {
     loadGenres();
   }, [allPodcasts]);
 
-  /**
-   * Reset to the first page when filters change.
-   */
-  useEffect(() => {
-    setPage(1);
-  }, [search, sortKey, genre]);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem(
@@ -132,6 +95,24 @@ export function PodcastProvider({ children }) {
     window.addEventListener("resize", calculatePageSize);
     return () => window.removeEventListener("resize", calculatePageSize);
   }, []);
+
+  /**
+   * Update filters and always return the user to the first page.
+   */
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  const handleSortKeyChange = (value) => {
+    setSortKey(value);
+    setPage(1);
+  };
+
+  const handleGenreChange = (value) => {
+    setGenre(value);
+    setPage(1);
+  };
 
   /**
    * Apply filtering and sorting to the full dataset based on search input,
@@ -214,11 +195,11 @@ export function PodcastProvider({ children }) {
     error,
     genres,
     search,
-    setSearch,
+    setSearch: handleSearchChange,
     sortKey,
-    setSortKey,
+    setSortKey: handleSortKeyChange,
     genre,
-    setGenre,
+    setGenre: handleGenreChange,
     page: currentPage,
     setPage,
     totalPages,
