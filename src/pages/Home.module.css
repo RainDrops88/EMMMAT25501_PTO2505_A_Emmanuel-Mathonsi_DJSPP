@@ -13,15 +13,6 @@
   margin: 10px;
 }
 
-@media (min-width: 768px) {
-  .controls {
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 1.5rem;
-  }
-}
-
-
 .favoriteEpisodes {
   background: var(--surface-bg);
   padding: 1rem;
@@ -34,3 +25,12 @@
   gap: 1rem;
   margin: 0 auto;
 }
+
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1.5rem;
+  }
+}
+
