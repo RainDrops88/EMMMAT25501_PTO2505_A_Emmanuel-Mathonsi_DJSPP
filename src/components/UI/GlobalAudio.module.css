@@ -1,0 +1,106 @@
+.playerShell {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  padding: 0.75rem;
+  pointer-events: none;
+}
+
+.audioPlayerCard {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-bg);
+  box-shadow: var(--card-shadow);
+  pointer-events: auto;
+}
+
+.episodeImage {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.episodeInfo h3 {
+  margin: 0.15rem 0;
+  font-size: 1rem;
+}
+
+.podcastTitle,
+.episodeMeta {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.audioControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.episodeAudio {
+  background: none;
+  border: none;
+  width:80%;
+  margin-top: 0.5rem;
+}
+
+.episodeActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.favoriteButton,
+.closeButton,
+.controlButton {
+  border: 1px solid var(--border-color);
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+}
+
+.controlButton {
+    background: none;
+    border: none;
+    padding: 0.55rem;
+}
+
+.closeButton:hover {
+  color: #f80303;
+}
+
+.favoriteButton {
+  font-size: 1.1rem;
+}
+
+.controlButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .audioPlayerCard {
+    grid-template-columns: 1fr;
+  }
+
+  .episodeImage {
+    display: none;
+  }
+
+  .episodeActions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
