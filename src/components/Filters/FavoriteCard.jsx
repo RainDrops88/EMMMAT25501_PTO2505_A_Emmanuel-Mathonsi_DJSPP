@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { PodcastContext } from "../../context/PodcastContext";
+import { PodcastContext } from "../../context/PodcastContextStore";
 import styles from "./Favorite.module.css";
 
 /**
@@ -32,7 +32,7 @@ export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
   if (!Array.isArray(episodes)) {
     return (
       <span className={styles.badge}>
-        <span>Favorites</span>
+        <span>Favorites ({favoriteEpisodesCount})</span>
       </span>
     );
   }

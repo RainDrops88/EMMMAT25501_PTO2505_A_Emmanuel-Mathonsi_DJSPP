@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
-import { PodcastContext } from "../../context/PodcastContext";
+import { PodcastContext } from "../../context/PodcastContextStore";
 import PodcastCard from "../Podcasts/PodcastCard";
 import styles from "./Carousel.module.css";
 

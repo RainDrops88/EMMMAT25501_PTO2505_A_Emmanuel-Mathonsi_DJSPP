@@ -6,7 +6,7 @@ import {
 import FavoriteCard from "../components/Filters/FavoriteCard";
 import { useContext } from "react";
 import styles from "./Home.module.css";
-import { PodcastContext } from "../context/PodcastContext";
+import { PodcastContext } from "../context/PodcastContextStore";
 
 /**
  * Favorites page for saved podcast episodes.

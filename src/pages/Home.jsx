@@ -9,7 +9,7 @@ import {
 } from "../components";
 import Carousel from "../components/UI/Carousel";
 import styles from "./Home.module.css";
-import { PodcastContext } from "../context/PodcastContext";
+import { PodcastContext } from "../context/PodcastContextStore";
 import { useContext } from "react";
 
 /**

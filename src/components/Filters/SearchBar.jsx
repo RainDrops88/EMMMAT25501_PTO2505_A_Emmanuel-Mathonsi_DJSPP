@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { PodcastContext } from "../../context/PodcastContext";
+import { PodcastContext } from "../../context/PodcastContextStore";
 import styles from "./SearchBar.module.css";
 
 /**
@@ -13,7 +13,7 @@ export default function SearchBar() {
   useEffect(() => {
     const id = setTimeout(() => setSearch(value), 300);
     return () => clearTimeout(id);
-  }, [value]);
+  }, [value, setSearch]);
 
   return (
     <input
