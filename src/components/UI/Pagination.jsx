@@ -20,6 +20,7 @@ export default function Pagination() {
       {pages.map((p) => (
         <button
           key={p}
+          type="button"
           className={`${styles.pageButton} ${p === page ? styles.active : ""}`}
           onClick={() => setPage(p)}
         >

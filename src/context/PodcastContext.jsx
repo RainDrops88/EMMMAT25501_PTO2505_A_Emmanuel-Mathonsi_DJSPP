@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchGenresByIds, fetchPodcasts } from "../api/fetchData";
 import { PodcastContext } from "./PodcastContextStore";
 
@@ -99,20 +99,20 @@ export function PodcastProvider({ children }) {
   /**
    * Update filters and always return the user to the first page.
    */
-  const handleSearchChange = (value) => {
+  const handleSearchChange = useCallback((value) => {
     setSearch(value);
     setPage(1);
-  };
+  }, []);
 
-  const handleSortKeyChange = (value) => {
+  const handleSortKeyChange = useCallback((value) => {
     setSortKey(value);
     setPage(1);
-  };
+  }, []);
 
-  const handleGenreChange = (value) => {
+  const handleGenreChange = useCallback((value) => {
     setGenre(value);
     setPage(1);
-  };
+  }, []);
 
   /**
    * Apply filtering and sorting to the full dataset based on search input,
