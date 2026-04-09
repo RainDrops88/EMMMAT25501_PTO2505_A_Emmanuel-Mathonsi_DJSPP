@@ -28,6 +28,12 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 0.75rem;
+  border-radius: 12px;
+  background: radial-gradient(
+    rgb(84, 84, 247) 30%,
+    transparent 70%
+  );
+
 }
 
 .navButton {
@@ -54,7 +60,17 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 0.25rem 0;
+  padding: 1rem 0;
+  -webkit-mask: linear-gradient(
+    90deg, 
+    white 80%,
+    transparent
+  );
+  mask:linear-gradient(
+    90deg,
+    white 80%,
+    transparent
+  );
 }
 
 .track::-webkit-scrollbar {
@@ -62,7 +78,7 @@
 }
 
 .slide {
-  flex: 0 0 min(280px, 80vw);
+  flex: 0 0 min(200px, 40vw);
 }
 
 .slide > * {
