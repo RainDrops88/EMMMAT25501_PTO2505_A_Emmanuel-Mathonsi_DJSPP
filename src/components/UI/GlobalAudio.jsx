@@ -30,6 +30,7 @@ export default function GlobalAudio() {
   return (
 	<aside className={styles.playerShell} aria-label="Global audio player">
 	  <article className={styles.audioPlayerCard}>
+		<div className={styles.audioInfo}>
 		<img
 			className={styles.episodeImage}
 			src={episode.seasonImage || episode.podcastImage}
@@ -76,7 +77,7 @@ export default function GlobalAudio() {
 		  </button>
 			</div>
 		</div>
-
+		</div>
 		<div className={styles.episodeActions}>
 		
 		  
@@ -101,6 +102,8 @@ export default function GlobalAudio() {
 			{isFavorite ? "★" : "☆"}
 		  </button>
 		</div>
+
+		
 	  </article>
 	</aside>
   );
