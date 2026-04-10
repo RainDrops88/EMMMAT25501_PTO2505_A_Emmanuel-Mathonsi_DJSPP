@@ -146,8 +146,8 @@ strong {
 }
 
 .episodeCard {
-  display: grid;
-  grid-template-columns: 96px 1fr auto;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   background: var(--surface-muted);
   padding: 1rem;
@@ -163,7 +163,15 @@ strong {
   border-color: var(--border-color);
 }
 
+.episodeHeader {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .episodeInfo {
+  display: flex;
+  justify-content: space-between;
   margin-left: 10px;
 }
 
@@ -185,6 +193,7 @@ strong {
 }
 
 .playButton {
+  width: 6rem;
   margin-top: 0.75rem;
   border: 1px solid var(--border-color);
   background: var(--accent-primary);
@@ -202,6 +211,7 @@ strong {
 
 .favoriteIcon {
   border: none;
+  margin-left: auto;
   background: transparent;
   font-size: 1.5rem;
   color: rgb(155, 151, 151);
