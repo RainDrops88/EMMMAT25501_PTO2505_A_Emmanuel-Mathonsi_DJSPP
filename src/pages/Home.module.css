@@ -13,18 +13,6 @@
   margin: 10px;
 }
 
-.favoriteEpisodes {
-  background: var(--surface-bg);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: var(--card-shadow);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 60%;
-  gap: 1rem;
-  margin: 0 auto;
-}
 
 @media (min-width: 768px) {
   .controls {
