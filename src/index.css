@@ -10,9 +10,11 @@
   --border-color: #d1d5db;
   --input-bg: #ffffff;
   --tag-bg: #e5e7eb;
-  --accent-primary: #2563eb;
+  --accent-primary: #0a0f18;
   --header-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --card-hover: rgba(101, 124, 236, 0.854);
+  --fav-card: rgba(154, 152, 152, 0.8);
 }
 
 :root[data-theme="dark"] {
@@ -28,6 +30,8 @@
   --tag-bg: #374151;
   --header-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
   --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --card-hover: rgba(101, 124, 236, 0.854);
+  --fav-card: rgba(255, 255, 255, 0.1);
 }
 
 * {
