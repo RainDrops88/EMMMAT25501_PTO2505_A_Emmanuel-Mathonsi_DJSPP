@@ -22,12 +22,22 @@
   font-size: 0.85rem;
 }
 
+.star {
+  display: none;
+}
+
 
 .favoriteEpisodes {
+   background: var(--surface-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  width: 60%;
   gap: 1rem;
-  margin: 0 10px;
+  margin: 0 auto;
 }
 
 .favoriteGroup {
@@ -91,7 +101,8 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
@@ -148,7 +159,25 @@
   color: var(--text-secondary);
 }
 
+@media (max-width: 1024px) {
+  .favoriteEpisodes {
+    width: 80%;
+  }
+}
+
 @media (max-width: 768px) {
+  .star {
+    display: inline;
+  }
+
+  .favoriteEpisodes {
+    margin: 0 5px;
+    width: auto;
+  }
+
+  .favoriteText {
+    display: none;
+  }
   .favoriteEpisodeCard {
     grid-template-columns: 1fr;
   }
