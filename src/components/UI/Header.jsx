@@ -8,13 +8,19 @@ export default function Header({ theme, onToggleTheme }) {
 
 	return (
 		<header className={styles.appHeader}>
-			<Link to="/" className={styles.brand}>
+			<div className={styles.brand}>
 				<img className={styles.logo} src={logo} alt="" />
 				<span>Podcast App</span>
-			</Link>
-			<Link to="/favorites" className={styles.favoriteLink}>
-				<Favorite />
-			</Link>
+			</div>
+			<div className={styles.navLinks}>
+				<Link to="/" className={styles.homeLink}>
+					Home
+				</Link>
+				<Link to="/favorites" className={styles.favoriteLink}>
+					<Favorite />
+				</Link>
+			</div>
+			
 
 			<button
 				type="button"
