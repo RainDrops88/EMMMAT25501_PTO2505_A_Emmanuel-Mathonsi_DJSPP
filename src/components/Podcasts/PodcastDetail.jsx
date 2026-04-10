@@ -124,13 +124,33 @@ export default function PodcastDetail({ podcast, genres }) {
 
             return (
               <div key={episodeData.key} className={styles.episodeCard}>
-                <img className={styles.episodeCover} src={season.image} alt={season.title} />
-                <div className={styles.episodeInfo}>
-                  <p className={styles.episodeTitle}>
-                    Episode {index + 1}: {ep.title}
-                  </p>
-                  <p className={styles.episodeDesc}>{ep.description}</p>
-                  <button
+                <div className={styles.episodeHeader}>
+                  <img className={styles.episodeCover} src={season.image} alt={season.title} />
+                    <div className={styles.episodeInfo}>
+                      <div>
+                        <p className={styles.episodeTitle}>
+                          Episode {index + 1}: {ep.title}
+                        </p>
+                        <p className={styles.episodeDesc}>{ep.description}</p>
+                      </div>
+                      
+                    </div>
+                    <button
+                        type="button"
+                        className={`${styles.favoriteIcon} ${
+                          episodeIsFavorite ? styles.favoriteActive : ""
+                        }`}
+                        onClick={() => toggleEpisodeFavorite(episodeData)}
+                        aria-label={
+                          episodeIsFavorite
+                            ? `Remove ${ep.title} from favorites`
+                            : `Add ${ep.title} to favorites`
+                        }
+                      >
+                        {episodeIsFavorite ? "★" : "☆"}
+                      </button>
+                </div>
+                <button
                     type="button"
                     className={`${styles.playButton} ${
                       isEpisodePlaying ? styles.playing : ""
@@ -148,21 +168,7 @@ export default function PodcastDetail({ podcast, genres }) {
                         ? "▶ Resume "
                         : "▶ Play"}
                   </button>
-                </div>
-                <button
-                  type="button"
-                  className={`${styles.favoriteIcon} ${
-                    episodeIsFavorite ? styles.favoriteActive : ""
-                  }`}
-                  onClick={() => toggleEpisodeFavorite(episodeData)}
-                  aria-label={
-                    episodeIsFavorite
-                      ? `Remove ${ep.title} from favorites`
-                      : `Add ${ep.title} to favorites`
-                  }
-                >
-                  {episodeIsFavorite ? "★" : "☆"}
-                </button>
+                
               </div>
             );
           })}
