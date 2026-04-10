@@ -67,7 +67,7 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 10px;
-  background: var(--surface-bg);
+  background: var(--fav-card);
   box-shadow: var(--card-shadow);
 }
 
