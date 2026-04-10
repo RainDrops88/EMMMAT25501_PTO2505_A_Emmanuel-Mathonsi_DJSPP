@@ -1,4 +1,11 @@
-import { createContext, useCallback, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 export const AudioPlayerContext = createContext({
   episode: null,
@@ -113,6 +120,24 @@ export function AudioPlayerProvider({ children }) {
 
     setIsPlaying(false);
   }, [currentEpisodeIndex, playlist]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (!episode || !isPlaying) {
+        return undefined;
+      }
+
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [episode, isPlaying]);
 
   const hasPreviousEpisode = currentEpisodeIndex > 0;
   const hasNextEpisode =
