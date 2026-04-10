@@ -35,7 +35,8 @@ export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
   if (!Array.isArray(episodes)) {
     return (
       <span className={styles.badge}>
-        <span>Favorites ({favoriteEpisodesCount})</span>
+        <span className={styles.favoriteText}>Favorites ({favoriteEpisodesCount})</span>
+        <span className={styles.star}>⭐</span>
       </span>
     );
   }
