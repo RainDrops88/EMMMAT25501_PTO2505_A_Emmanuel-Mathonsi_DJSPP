@@ -90,7 +90,14 @@ export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
                   <p className={styles.addedDate}>
                     Added on: {new Date(
                       episode.addedAt ?? episode.updated
-                    ).toLocaleDateString()}
+                    ).toLocaleString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
                   </p>
                   <button
                     type="button"
@@ -119,7 +126,7 @@ export default function FavoriteCard({ episodes, toggleEpisodeFavorite }) {
                     onClick={() => toggleEpisodeFavorite(episode)}
                     aria-label={`Remove ${episode.episodeTitle} from favorites`}
                   >
-                    ★
+                    Remove
                   </button>
                 </div>
               </article>
